@@ -84,6 +84,14 @@
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
 
+    {{ js_resources|indent(4)|safe }}
+
+    {{ css_resources|indent(4)|safe }}
+
+    {{ plot_script|indent(4)|safe }}
+<div style="text-align: center">
+    {{ plot_div|indent(4)|safe }}
+</div>
 {#          <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">#}
 {#            <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph">#}
 {#              <use xlink:href="#chart" />#}
