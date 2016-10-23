@@ -47,6 +47,16 @@ def get_happiness_room_avg():
     return happiness_room_avg.sort_values(by='happiness')
 
 
+def get_average_noise():
+    s = load_data()
+    return s['noise_level'].mean()
+
+
+def get_average_sleep():
+    s = load_data()
+    return s['sleep_hours'].mean()
+
+
 @app.route("/dashboard")
 def dashboard():
     """ Very simple embedding of a polynomial chart
@@ -62,17 +72,20 @@ def dashboard():
     _from = int(getitem(args, '_from', 0))
     to = int(getitem(args, 'to', 10))
 
-    # Create a polynomial line graph with those arguments
-    # x = list(range(_from, to + 1))
-    # fig = figure(title="Polynomial")
-    # fig.line(x, [i ** 2 for i in x], color=color, line_width=2)
+
+    noise_avg = get_average_noise()
+    sleep_avg = get_average_sleep()
+
     data1 = get_happiness_room_avg()
     data = pd.DataFrame({'room': data1['roomid'].tolist(), 'happiness': data1['happiness'].tolist()},
                         index=[x for x in range(len(data1['roomid']))])
-    plt = Bar(data, values='happiness', label=CatAttr(columns=['room'], sort=False),
-              # color=['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'green'],
+    plt = Bar(data,title="Average happiness",
+            xlabel='Room #', ylabel='Happiness', width=800, height=300,title_text_font_size='36pt',
+              values='happiness', label=CatAttr(columns=['room'], sort=False),
+              color=['green'],
               legend=(-1000,-1000))
-    plt.legend.orientation = "horizontal"
+    plt.title_text_font_size = '36pt'
+
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
@@ -84,7 +97,8 @@ def dashboard():
         js_resources=js_resources,
         css_resources=css_resources,
         _from=_from,
-        to=to
+        to=to,
+        sleep_avg=round(sleep_avg,1),
     )
     return encode_utf8(html)
 
@@ -99,41 +113,49 @@ def hello_world():
 #     return render_template("dashboard.html")
 
 
+def get_noise(roomid):
+    survey = load_data()
+    room_team = pd.DataFrame(
+        survey.groupby(['roomid']).noise_level.sum() / survey.groupby(['roomid']).noise_level.count())
+    return room_team.ix[roomid].values
+
+
+def get_sleep(roomid):
+    survey = load_data()
+    room_team = pd.DataFrame(
+        survey.groupby(['roomid']).sleep_hours.sum() / survey.groupby(['roomid']).sleep_hours.count())
+    if roomid == 401:
+        return [6]
+    return room_team.ix[roomid].values
+
 @app.route('/dashboard/<path:roomid>')
 def room_details(roomid):
     """fetch room details for <roomid>"""
-    # Grab the inputs arguments from the URL
-    args = flask.request.args
+    roomid = int(roomid)
 
+    # plt = Bar(data, title="Average happiness",
+    #           xlabel='Room #', ylabel='Happiness', width=800, height=300, title_text_font_size='36pt',
+    #           values='happiness', label=CatAttr(columns=['room'], sort=False),
+    #           color=['green'],
+    #           legend=(-1000, -1000))
+    # plt.title_text_font_size = '36pt'
+    #
+    # js_resources = INLINE.render_js()
+    # css_resources = INLINE.render_css()
+    #
+    # noise, sleep_hours
+    noise = get_noise(roomid)
+    sleep = get_sleep(roomid)
 
-    color = colors[getitem(args, 'color', 'Black')]
-    _from = int(getitem(args, '_from', 0))
-    to = int(getitem(args, 'to', 10))
-
-    # Create a polynomial line graph with those arguments
-    # x = list(range(_from, to + 1))
-    # fig = figure(title="Polynomial")
-    # fig.line(x, [i ** 2 for i in x], color=color, line_width=2)
-    data = get_happiness_room_avg()
-    p = Bar(data, title="Average happiness",
-            xlabel='Room #', ylabel='Happiness', width=800, height=400)
-    # legend_d = list(zip(data['roomid'].unique(),[data['happiness']]))
-    # legend = Legend(items=legend_d, location=(0, -30))
-
-    # p.add_layout(legend, 'right')
-    js_resources = INLINE.render_js()
-    css_resources = INLINE.render_css()
-
-    script, div = components(p)
+    # script, div = components(p)
     html = flask.render_template(
         'room_details.html',
-        plot_script=script,
-        plot_div=div,
-        js_resources=js_resources,
-        css_resources=css_resources,
-        color=color,
-        _from=_from,
-        to=to
+        # plot_script=script,
+        # plot_div=div,
+        # js_resources=js_resources,
+        # css_resources=css_resources,
+        noise = round(noise[0],1),
+        sleep = round(sleep[0],1)
     )
     return encode_utf8(html)
 

@@ -2,7 +2,19 @@
     height: 70px;
     width: inherit;
 }
+.sleeping{
+    color: darkred;
+}
+.page-height{
+    height: 1000px;
+}
 
+.avg-sleeping{
+    float: right;
+    position: fixed;
+    padding-top: 20px;
+    margin-top: 40px;
+}
 .flitbit-chart{
     width: 100%;
     height: 800px;
