@@ -5,13 +5,11 @@ var text = document.getElementById('goodtext');
 function iterateMessages() {
     var num = 0;
     window.setInterval(function () {
-        text = "Performance through "+goods[num];
+        text = "Performance through " + goods[num];
         if (num >= goods.length) {
             num = 0;
         }
     }, 3000);
 }
 
-window.onload = function start() {
-    iterateMessages();
-}
+window.onload = iterateMessages;
