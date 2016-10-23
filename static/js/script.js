@@ -15,4 +15,4 @@ function iterateMessages() {
 
 window.alert("1");
 
-document.onload = iterateMessages;
+window.onload = iterateMessages;
