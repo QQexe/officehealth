@@ -6,15 +6,16 @@
 
 a {
    position: absolute; 
-   top: 350px; 
-   left: 45%;
+   top: 450px; 
+   left: 40%;
 }
 
-span { 
+span {
+    float: left;
    position: absolute; 
    top: 200px; 
-   left: 0; 
-   width: 60%;
+   left: 30%; 
+   width: 40%;
    font-size: 42px;
    text-align: justify;
 }
