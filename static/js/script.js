@@ -3,9 +3,10 @@ var goods = ["better air quality", "reduced noise levels", "balanced lighting", 
 var text = document.getElementById('goodtext');
 
 function iterateMessages() {
+    window.alert("!");
     var num = 0;
     window.setInterval(function () {
-        text = "Performance through " + goods[num];
+        text.innerHTML = "Performance through " + goods[num];
         if (num >= goods.length) {
             num = 0;
         }
