@@ -13,10 +13,10 @@ a {
 span {
     float: left;
    position: absolute; 
-   top: 200px; 
-   left: 30%; 
-   width: 40%;
-   font-size: 30em;
+   top: 235px; 
+   left: 25%; 
+   width: 50%;
+   font-size: 2em;
    text-align: justify;
 }
 
