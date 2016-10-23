@@ -4,4 +4,14 @@
 }
 body{
     text-align: center;
+    background-image: url("static/images/office.jpg");
+}
+
+h2 span { 
+   color: #000; 
+   font: bold 24px/45px Helvetica, Sans-Serif; 
+   letter-spacing: -1px;  
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.7);
+   padding: 10px; 
 }
