@@ -1,3 +1,5 @@
+from bokeh.charts.attributes import CatAttr
+from bokeh.models import Legend
 from flask import Flask
 from flask import render_template
 import numpy as np
@@ -31,10 +33,17 @@ def load_data():
 def get_happiness_room_avg():
     """Report main bar chart. Rooms versus happiness and people number"""
     survey = load_data()
+    # happiness_room_avg = pd.DataFrame(survey.groupby('roomid').happiness.sum() / survey['roomid'].value_counts())
+    # happiness_room_avg['people_number'] = survey.groupby('roomid')['team'].count()
+    # happiness_room_avg.columns = ['happiness', 'people_number']
+    # happiness_room_avg = happiness_room_avg.set_index(survey.groupby('roomid')['team'].count().index)
+    # h = happiness_room_avg.sort_values(by='happiness')
+    # return h
+
     happiness_room_avg = pd.DataFrame(survey.groupby('roomid').happiness.sum() / survey['roomid'].value_counts())
-    happiness_room_avg['people_number'] = survey.groupby('roomid')['team'].count()
-    happiness_room_avg.columns = ['happiness', 'people_number']
-    happiness_room_avg = happiness_room_avg.set_index(survey.groupby('roomid')['team'].count().index)
+    happiness_room_avg.reset_index(level=0, inplace=True)
+    happiness_room_avg.reset_index(drop=True, inplace=True)
+    happiness_room_avg.columns = ['roomid', 'happiness']
     return happiness_room_avg.sort_values(by='happiness')
 
 
@@ -57,18 +66,23 @@ def dashboard():
     # x = list(range(_from, to + 1))
     # fig = figure(title="Polynomial")
     # fig.line(x, [i ** 2 for i in x], color=color, line_width=2)
-    p = Bar(get_happiness_room_avg(), title="Average happiness", xlabel='Room #', ylabel='Happiness', width=800, height=400)
+    data1 = get_happiness_room_avg()
+    data = pd.DataFrame({'room': data1['roomid'].tolist(), 'happiness': data1['happiness'].tolist()},
+                        index=[x for x in range(len(data1['roomid']))])
+    plt = Bar(data, values='happiness', label=CatAttr(columns=['room'], sort=False),
+              # color=['yellow', 'red', 'yellow', 'red', 'yellow', 'red', 'green'],
+              legend=(-1000,-1000))
+    plt.legend.orientation = "horizontal"
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
-    script, div = components(p)
+    script, div = components(plt)
     html = flask.render_template(
         'dashboard.html',
         plot_script=script,
         plot_div=div,
         js_resources=js_resources,
         css_resources=css_resources,
-        color=color,
         _from=_from,
         to=to
     )
@@ -88,8 +102,45 @@ def hello_world():
 @app.route('/dashboard/<path:roomid>')
 def room_details(roomid):
     """fetch room details for <roomid>"""
+    # Grab the inputs arguments from the URL
+    args = flask.request.args
 
-    return render_template('room_details.html')
+
+    color = colors[getitem(args, 'color', 'Black')]
+    _from = int(getitem(args, '_from', 0))
+    to = int(getitem(args, 'to', 10))
+
+    # Create a polynomial line graph with those arguments
+    # x = list(range(_from, to + 1))
+    # fig = figure(title="Polynomial")
+    # fig.line(x, [i ** 2 for i in x], color=color, line_width=2)
+    data = get_happiness_room_avg()
+    p = Bar(data, title="Average happiness",
+            xlabel='Room #', ylabel='Happiness', width=800, height=400)
+    # legend_d = list(zip(data['roomid'].unique(),[data['happiness']]))
+    # legend = Legend(items=legend_d, location=(0, -30))
+
+    # p.add_layout(legend, 'right')
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+    script, div = components(p)
+    html = flask.render_template(
+        'room_details.html',
+        plot_script=script,
+        plot_div=div,
+        js_resources=js_resources,
+        css_resources=css_resources,
+        color=color,
+        _from=_from,
+        to=to
+    )
+    return encode_utf8(html)
+
+
+@app.route('/flitbit')
+def flitbit():
+    return  render_template("flitbit_view.html")
 
 
 if __name__ == '__main__':
