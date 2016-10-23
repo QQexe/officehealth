@@ -1,5 +1,5 @@
 .backgroundimg{
-   position: relative; 
+   position: absolute; 
    width: 100%; /* for IE 6 */
    overflow: hidden;
 }
