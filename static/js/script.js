@@ -12,4 +12,4 @@ function iterateMessages() {
     }, 3000);
 }
 
-window.onload = iterateMessages;
+document.onload = iterateMessages;
