@@ -13,4 +13,6 @@ function iterateMessages() {
     }, 3000);
 }
 
+window.alert("1");
+
 document.onload = iterateMessages;
