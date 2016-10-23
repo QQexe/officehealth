@@ -1,9 +1,13 @@
 .background{
-    height: 90%;
-    width: 90%;
+   position: relative; 
+   width: 100%; /* for IE 6 */
 }
-body{
-    text-align: center;
+
+h2 { 
+   position: absolute; 
+   top: 200px; 
+   left: 0; 
+   width: 100%; 
 }
 
 h2 span { 
@@ -13,4 +17,8 @@ h2 span {
    background: rgb(0, 0, 0); /* fallback color */
    background: rgba(0, 0, 0, 0.7);
    padding: 10px; 
+}
+
+body{
+    text-align: center;
 }
