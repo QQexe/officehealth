@@ -1,9 +1,12 @@
 .garage-logo{
-    height: inherit;
+    height: 70px;
     width: inherit;
 }
 
-
+.flitbit-chart{
+    width: 100%;
+    height: 800px;
+}
 
 
 .demo-avatar {
