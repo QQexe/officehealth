@@ -11,9 +11,8 @@ a {
 }
 
 span {
-    float: left;
-   position: absolute; 
-   top: 30%; 
+    position: absolute; 
+   top: 35%; 
    left: 25%; 
    width: 50%;
    font-size: 2em;
