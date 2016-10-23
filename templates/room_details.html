@@ -73,9 +73,8 @@
           </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report</i>Spam</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>Updates</a>
+          <a class="mdl-navigation__link" href="{{ url_for('dashboard') }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
+          <a class="mdl-navigation__link" href="{{ url_for('flitbit') }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>Flitbit</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Social</a>
           <div class="mdl-layout-spacer"></div>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
@@ -93,16 +92,43 @@
 {#            </svg>#}
 {#          </div>#}
 {#          <div class="demo-cards mdl-cell large mdl-cell--8-col mdl-cell--12-col-tablet mdl-grid mdl-grid--no-spacing">#}
-          <div class="demo-cards col s12 s6 m6 l4">
+          <div class="demo-cards col s12 s6 m6 l4 page-height">
 
-           {{ js_resources|indent(4)|safe }}
+{#           {{ js_resources|indent(4)|safe }}#}
+{##}
+{#    {{ css_resources|indent(4)|safe }}#}
+{##}
+{#    {{ plot_script|indent(4)|safe }}#}
+{#<div style="text-align: center">#}
+{#    {{ plot_div|indent(4)|safe }}#}
+{#</div>#}
+              <table border="0">
+                  <tr>
+                      <td><h1 class="card-title">Problem</h1></td>
 
-    {{ css_resources|indent(4)|safe }}
+                  <td><h1 class="card-title">Solution</h1></td>
 
-    {{ plot_script|indent(4)|safe }}
-<div style="text-align: center">
-    {{ plot_div|indent(4)|safe }}
-</div>
+                  </tr>
+                    {% if noise > 0.4 %}
+                  <tr>
+                        <td>
+                            <h2 class="card-title"><img src="/static/images/exclamation.png" />
+                                Noise level: <b>{{ noise }}</b></h2> </td>
+
+
+                      <td><h2 class="card-title">Set-up acoustic curtains!</h2></td>
+
+                  </tr>
+              {% endif %}
+              {% if sleep < 5 %}
+                  <tr>
+                     <td> <img src="/static/images/exclamation.png" />
+                         <h2 class="card-title" >Sleeping hours: <b>{{ sleep }}</b></h2> </td>
+                      <td><h2 class="card-title">Encourage to sleep!</h2></td>
+                  </tr>
+{% endif %}
+              </table>
+
         </div>
 
             </div>
