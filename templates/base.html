@@ -13,7 +13,9 @@
     <script type="text/javascript" src="/static/js/materialize.js"></script>
     <script>
       $(function() {
-        var num = 0;
+        var goods = ["better air quality", "reduced noise levels", "balanced lighting", "happier employees", "reduced stress", "healthier lifestyles"];
+          var text = document.getElementById('goodtext');
+          var num = 0;
         window.setInterval(function () {
             text.innerHTML = "Performance through " + goods[num];
             if (num >= goods.length) {
