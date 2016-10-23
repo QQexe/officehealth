@@ -1,5 +1,5 @@
 .backgroundimg{
-   position: absolute; 
+   position: relative; 
    width: 100%; /* for IE 6 */
    overflow: hidden;
 }
@@ -10,7 +10,7 @@ a {
    left: 45%;
 }
 
-h2 { 
+span { 
    position: absolute; 
    top: 200px; 
    left: 0; 
