@@ -13,7 +13,12 @@
     <script type="text/javascript" src="/static/js/materialize.js"></script>
     <script>
       $(function() {
-        $( "h2" ).text( "I'm just a sample text" );
+        var num = 0;
+        window.setInterval(function () {
+            text.innerHTML = "Performance through " + goods[num];
+            if (num >= goods.length) {
+            num = 0;
+        }}, 3000);
       });
     </script>
 </head>
