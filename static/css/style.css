@@ -6,8 +6,8 @@
 
 a {
    position: absolute; 
-   top: 420px; 
-   left: 38%;
+   top: 450px; 
+   left: 39%;
 }
 
 span {
@@ -18,12 +18,12 @@ span {
    width: 50%;
    font-size: 2em;
    text-align: justify;
-      color: white;
+      color: black;
   text-shadow:
-   -1px -1px 0 #000,  
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
+   -1px -1px 0 #fff,  
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+     1px 1px 0 #fff;
 }
 
 h2 span { 
